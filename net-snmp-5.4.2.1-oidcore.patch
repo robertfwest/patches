@@ -1,0 +1,43 @@
+--- net-snmp-5.4.2.1/agent/mibgroup/agentx/protocol.c.oidcore	2008-08-17 17:08:10.000000000 -0400
++++ net-snmp-5.4.2.1/agent/mibgroup/agentx/protocol.c	2010-02-12 15:03:36.000000000 -0500
+@@ -1105,6 +1105,7 @@
+ {
+     u_int           n_subid;
+     u_int           prefix;
++    u_int           tmp_oid_len;
+     int             i;
+     int             int_offset;
+     u_int          *int_ptr = (u_int *)oid_buf;
+@@ -1155,6 +1156,23 @@
+         return buf_ptr;
+     }
+ 
++    /* 
++     * The number of sub-identifiers in total depends on whether the standard
++     * prefix is used. 
++     */
++    tmp_oid_len = (prefix ? n_subid + 5 : n_subid);
++
++    /* 
++     * *oid_len should be the size of the buffer. Make sure we will not
++     * overrun.
++     */
++    if (*oid_len < tmp_oid_len) {
++        DEBUGMSGTL(("agentx", "Oversized Object ID\n"));
++        return NULL;
++    }
++
++    /* Set *oid_len to the total number of sub-identifiers */
++    *oid_len = tmp_oid_len;
+ 
+ #ifdef WORDS_BIGENDIAN
+ # define endianoff 1
+@@ -1199,8 +1217,6 @@
+         *length -= 4;
+     }
+ 
+-    *oid_len = (prefix ? n_subid + 5 : n_subid);
+-
+     DEBUGINDENTLESS();
+     DEBUGPRINTINDENT("dumpv_recv");
+     DEBUGMSG(("dumpv_recv", "OID: "));
