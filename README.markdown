@@ -1,7 +1,8 @@
 Patches to open source projects written by yours truly.
 
-net-snmp-5.4.2.1-oidcore.patch
-------------------------------
+Net-SNMP
+--------
+- Patch: net-snmp-5.4.2.1-oidcore.patch
 - Fixed snmpd segfault due to a corrupted stack frame caused when parsing an
   oversized OID from an AgentX subagent
 - Report: 
