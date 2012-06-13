@@ -49,3 +49,9 @@ IPVSAdm
 -------
 - Commit: https://github.com/horms/ipvsadm-test/commit/59b79515af7010d6e8461918ab7e2e1dc08bc603
 
+Regexp::Common::IRC
+-------------------
+- Report: https://rt.cpan.org/Public/Bug/Display.html?id=53489
+
+
+
